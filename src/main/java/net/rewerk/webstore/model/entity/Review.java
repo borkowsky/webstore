@@ -12,14 +12,14 @@ import net.rewerk.webstore.model.entity.meta.EntityMeta;
 public class Review extends EntityMeta {
     private Integer rating;
     private String text;
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(
             name = "user_id",
             nullable = false,
             updatable = false
     )
     private User user;
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(
             name = "product_id",
             nullable = false,

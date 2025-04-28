@@ -3,6 +3,7 @@ package net.rewerk.webstore.controller;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import net.rewerk.webstore.model.dto.request.upload.MultipleDeletionDto;
 import net.rewerk.webstore.model.dto.request.upload.SignUrlDto;
 import net.rewerk.webstore.model.dto.response.BaseResponseDto;
 import net.rewerk.webstore.model.dto.response.common.SinglePayloadResponseDto;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 @RequestMapping("/api/v1/upload")
@@ -67,5 +69,24 @@ public class UploadController {
                        .build(),
                status
        );
+    }
+
+    @DeleteMapping({"/", ""})
+    public ResponseEntity<BaseResponseDto> deleteMultiple(
+            @Valid @RequestBody MultipleDeletionDto request
+            ) {
+        HttpStatus status = HttpStatus.NO_CONTENT;
+        try {
+            uploadService.deleteObjects(Arrays.asList(request.getFilenames())).join();
+        } catch (Exception e) {
+            status = HttpStatus.NOT_FOUND;
+        }
+        return new ResponseEntity<>(
+                BaseResponseDto.builder()
+                        .code(status.value())
+                        .message(status.getReasonPhrase())
+                        .build(),
+                status
+        );
     }
 }

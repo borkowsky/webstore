@@ -2,6 +2,7 @@ package net.rewerk.webstore.service;
 
 import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.cloud.storage.*;
+import lombok.NonNull;
 import net.rewerk.webstore.exception.CloudFileNotFound;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
@@ -40,8 +41,8 @@ public class UploadService {
         }
     }
 
-    public String signV4UploadURL(String objectName,
-                                         String mime) {
+    public String signV4UploadURL(@NonNull String objectName,
+                                  @NonNull String mime) {
         BlobInfo blobInfo = BlobInfo.newBuilder(BlobId.of(bucketName, objectName)).build();
         Map<String, String> extHeaders = new HashMap<>();
         extHeaders.put("Content-Type", mime);
@@ -57,7 +58,10 @@ public class UploadService {
         return url.toString();
     }
 
-    public void deleteObject(String objectName) {
+    public void deleteObject(@NonNull String objectName) {
+        if (objectName.startsWith("https://")) {
+            objectName = objectName.substring(objectName.lastIndexOf("/") + 1);
+        }
         Blob blob = storage.get(bucketName, objectName);
         if (blob != null) {
             BlobId blobId = blob.getBlobId();

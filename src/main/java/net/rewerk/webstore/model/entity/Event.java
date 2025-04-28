@@ -12,7 +12,7 @@ import net.rewerk.webstore.model.entity.meta.DeletableEntityMeta;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Event extends DeletableEntityMeta {
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(
             name = "user_id",
             nullable = false,

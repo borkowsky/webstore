@@ -10,7 +10,7 @@ import net.rewerk.webstore.model.entity.meta.DeletableEntityMeta;
 @Entity
 @Table(name = "basket")
 public class Basket extends DeletableEntityMeta {
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "user_id",
             nullable = false,

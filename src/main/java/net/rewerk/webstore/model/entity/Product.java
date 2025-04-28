@@ -16,7 +16,7 @@ import java.util.List;
 public class Product extends EntityMeta {
     private String name;
     private String description;
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(
             name = "category_id",
             nullable = false
