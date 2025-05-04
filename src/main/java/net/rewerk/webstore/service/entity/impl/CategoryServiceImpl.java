@@ -13,6 +13,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class CategoryServiceImpl extends EventWritingService implements CategoryService {
@@ -70,6 +72,7 @@ public class CategoryServiceImpl extends EventWritingService implements Category
         try {
             result = categoryRepository.findAll(pageable);
         } catch (Exception e) {
+            e.printStackTrace();
             result = Page.empty();
         }
         return result;
@@ -81,8 +84,14 @@ public class CategoryServiceImpl extends EventWritingService implements Category
         try {
             result = categoryRepository.findAll(specification, pageable);
         } catch (Exception e) {
+            e.printStackTrace();
             result = Page.empty();
         }
         return result;
+    }
+
+    @Override
+    public List<Category> findAllDistinctById(List<Integer> ids) {
+        return categoryRepository.findDistinctByIdIn(ids);
     }
 }

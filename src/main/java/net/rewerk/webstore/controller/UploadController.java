@@ -1,8 +1,8 @@
 package net.rewerk.webstore.controller;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import net.rewerk.webstore.model.dto.request.upload.DeleteDto;
 import net.rewerk.webstore.model.dto.request.upload.MultipleDeletionDto;
 import net.rewerk.webstore.model.dto.request.upload.SignUrlDto;
 import net.rewerk.webstore.model.dto.response.BaseResponseDto;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.UUID;
 
-@RequestMapping("/api/v1/upload")
+@RequestMapping("/api/v1/uploads")
 @RestController
 @RequiredArgsConstructor
 public class UploadController {
@@ -33,7 +33,8 @@ public class UploadController {
         try {
             result = uploadService.signV4UploadURL(
                     filename,
-                    signUrlDto.getMime()
+                    signUrlDto.getMime(),
+                    signUrlDto.getType()
             );
         } catch (Exception e) {
             System.out.println("Sign URL failed: " + e.getMessage());
@@ -45,39 +46,39 @@ public class UploadController {
                         .message(status.getReasonPhrase())
                         .payload(SignUrlResponseDto.builder()
                                 .uploadURL(result)
-                                .publicURL(uploadService.getUploadPublicURL(filename))
+                                .publicURL(uploadService.getUploadPublicURL(filename, signUrlDto.getType()))
                                 .build())
                         .build(),
                 status
         );
     }
 
-    @DeleteMapping("/{name}")
-    public ResponseEntity<BaseResponseDto> delete(
-        @PathVariable @NotNull String name
-    ) {
-       HttpStatus status = HttpStatus.NO_CONTENT;
-       try {
-           uploadService.deleteObject(name);
-       } catch (Exception e) {
-           status = HttpStatus.NOT_FOUND;
-       }
-       return new ResponseEntity<>(
-               BaseResponseDto.builder()
-                       .code(status.value())
-                       .message(status.getReasonPhrase())
-                       .build(),
-               status
-       );
-    }
-
     @DeleteMapping({"/", ""})
-    public ResponseEntity<BaseResponseDto> deleteMultiple(
-            @Valid @RequestBody MultipleDeletionDto request
-            ) {
+    public ResponseEntity<BaseResponseDto> delete(
+            @Valid @RequestBody DeleteDto request
+    ) {
         HttpStatus status = HttpStatus.NO_CONTENT;
         try {
-            uploadService.deleteObjects(Arrays.asList(request.getFilenames())).join();
+            uploadService.deleteObject(request.getFilename(), request.getType());
+        } catch (Exception e) {
+            status = HttpStatus.NOT_FOUND;
+        }
+        return new ResponseEntity<>(
+                BaseResponseDto.builder()
+                        .code(status.value())
+                        .message(status.getReasonPhrase())
+                        .build(),
+                status
+        );
+    }
+
+    @DeleteMapping("/multiple")
+    public ResponseEntity<BaseResponseDto> deleteMultiple(
+            @Valid @RequestBody MultipleDeletionDto request
+    ) {
+        HttpStatus status = HttpStatus.NO_CONTENT;
+        try {
+            uploadService.deleteObjects(Arrays.asList(request.getFilenames()), request.getType()).join();
         } catch (Exception e) {
             status = HttpStatus.NOT_FOUND;
         }

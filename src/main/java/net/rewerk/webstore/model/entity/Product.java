@@ -1,7 +1,9 @@
 package net.rewerk.webstore.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
 import lombok.*;
+import net.rewerk.webstore.configuration.pointer.ViewLevel;
 import net.rewerk.webstore.model.entity.meta.EntityMeta;
 
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "products")
+@JsonView(ViewLevel.RoleAnonymous.class)
 public class Product extends EntityMeta {
     private String name;
     private String description;
@@ -24,7 +27,13 @@ public class Product extends EntityMeta {
     private Category category;
     private Double price;
     private Double discountPrice;
+    private Double rating;
     private Integer balance;
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
     private List<String> images;
+    private List<String> tags;
+    @JsonView(ViewLevel.RoleAdministrator.class)
     private Boolean enabled;
 }

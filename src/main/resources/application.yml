@@ -1,4 +1,6 @@
 spring:
+  jackson:
+    default-property-inclusion: custom
   config:
     import: file:env.properties
   application:
@@ -19,4 +21,5 @@ jwt:
   sign: ${JWT_SIGN}
 uploads:
   project_id: ${GCS_PROJECT_ID}
-  bucket_name: ${CGS_BUCKET_NAME}
+  product_images_bucket_name: ${GCS_PRODUCT_IMAGES_BUCKET_NAME}
+  brand_images_bucket_name: ${GCS_BRAND_IMAGES_BUCKET_NAME}

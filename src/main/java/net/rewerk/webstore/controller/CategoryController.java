@@ -36,12 +36,12 @@ class CategoryController {
                 .message(HttpStatus.OK.getReasonPhrase())
                 .payload(categories.getContent())
                 .page(categories.getNumber() + 1)
-                .pages(categories.getTotalPages())
-                .size(categories.getSize())
+                .pages(categories.getTotalPages() + 1)
+                .total(categories.getTotalElements())
                 .build());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id:\\d+}")
     public ResponseEntity<SinglePayloadResponseDto<Category>> get(
             @PathVariable Integer id
     ) {
@@ -83,7 +83,7 @@ class CategoryController {
                 .build();
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/{id:\\d+}")
     public SinglePayloadResponseDto<Category> update(
             @PathVariable("id") Integer id,
             @Valid @RequestBody PatchDto requestDto
@@ -112,7 +112,7 @@ class CategoryController {
                 .build();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id:\\d+}")
     public ResponseEntity<BaseResponseDto> delete(
             @PathVariable Integer id
     ) {

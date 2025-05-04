@@ -9,6 +9,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
+import java.util.Collection;
+import java.util.List;
+
 
 public interface CategoryRepository extends JpaRepository<Category, Integer>, JpaSpecificationExecutor<Category> {
     @NonNull
@@ -16,4 +19,6 @@ public interface CategoryRepository extends JpaRepository<Category, Integer>, Jp
 
     @NonNull
     Page<Category> findAll(@Nullable Specification<Category> specification, @NonNull Pageable pageable);
+
+    List<Category> findDistinctByIdIn(Collection<Integer> ids);
 }

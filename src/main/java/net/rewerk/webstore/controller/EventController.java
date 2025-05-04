@@ -40,8 +40,8 @@ public class EventController {
                 .message(HttpStatus.OK.getReasonPhrase())
                 .payload(events.getContent())
                 .page(events.getNumber() + 1)
-                .pages(events.getTotalPages())
-                .size(events.getSize())
+                .pages(events.getTotalPages() + 1)
+                .total(events.getTotalElements())
                 .build());
     }
 }

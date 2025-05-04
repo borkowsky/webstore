@@ -1,8 +1,10 @@
 package net.rewerk.webstore.model.entity.meta;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
 import lombok.Data;
+import net.rewerk.webstore.configuration.pointer.ViewLevel;
 import org.hibernate.annotations.SoftDelete;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -13,6 +15,7 @@ import java.util.Date;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 @SoftDelete
+@JsonView(ViewLevel.RoleAnonymous.class)
 public class EntityMeta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,8 +23,10 @@ public class EntityMeta {
     private Integer id;
     @CreatedDate
     @Column(updatable = false)
+    @JsonView(ViewLevel.RoleAdministrator.class)
     private Date createdAt;
     @LastModifiedDate
+    @JsonView(ViewLevel.RoleAdministrator.class)
     private Date updatedAt;
     @JsonIgnore
     private Date deletedAt;

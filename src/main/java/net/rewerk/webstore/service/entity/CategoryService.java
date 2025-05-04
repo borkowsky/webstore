@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.List;
+
 public interface CategoryService {
     Category findById(Integer id);
 
@@ -17,4 +19,6 @@ public interface CategoryService {
     Page<Category> findAll(Pageable pageable);
 
     Page<Category> findAll(Specification<Category> specification, Pageable pageable);
+
+    List<Category> findAllDistinctById(List<Integer> ids);
 }

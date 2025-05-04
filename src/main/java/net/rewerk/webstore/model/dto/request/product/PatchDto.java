@@ -22,11 +22,13 @@ public class PatchDto {
     )
     private String description;
     private Integer category_id;
+    private Integer brand_id;
     @Positive(message = "Price {validation.common.positive}")
     private Double price;
     @Positive(message = "Discount price {validation.common.positive}")
     private Double discountPrice;
     private Integer balance;
     private String[] images;
+    private String[] tags;
     private Boolean enabled = Boolean.TRUE;
 }

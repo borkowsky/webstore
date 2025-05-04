@@ -1,6 +1,8 @@
 package net.rewerk.webstore.model.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Getter;
+import net.rewerk.webstore.configuration.pointer.ViewLevel;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -9,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Getter
+@JsonView(ViewLevel.RoleAnonymous.class)
 public class ValidationErrorResponse {
     private final int code;
     private final String message;

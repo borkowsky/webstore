@@ -19,6 +19,11 @@ public class ProductServiceImpl extends EventWritingService implements ProductSe
     private final EventRepository eventRepository;
 
     @Override
+    public boolean existsById(Integer id) {
+        return productRepository.existsById(id);
+    }
+
+    @Override
     public Product findById(Integer id) {
         return productRepository.findById(id).orElse(null);
     }
@@ -28,6 +33,7 @@ public class ProductServiceImpl extends EventWritingService implements ProductSe
         try {
             return productRepository.findAll(pageable);
         } catch (Exception e) {
+            e.printStackTrace();
             return Page.empty();
         }
     }
@@ -37,6 +43,7 @@ public class ProductServiceImpl extends EventWritingService implements ProductSe
         try {
             return productRepository.findAll(specification, pageable);
         } catch (Exception e) {
+            e.printStackTrace();
             return Page.empty();
         }
     }

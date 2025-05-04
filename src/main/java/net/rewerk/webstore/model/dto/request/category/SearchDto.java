@@ -11,5 +11,5 @@ import net.rewerk.webstore.model.dto.request.common.SortedRequestParamsDto;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SearchDto extends SortedRequestParamsDto {
-    private Integer category_id = null;
+    private Integer category_id = -1;
 }

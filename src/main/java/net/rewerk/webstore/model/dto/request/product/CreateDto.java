@@ -25,6 +25,8 @@ public class CreateDto {
     private String description;
     @NotNull(message = "Category ID {validation.common.required}")
     private Integer category_id;
+    @NotNull(message = "Brand ID {validation.common.required}")
+    private Integer brand_id;
     @NotNull(message = "Price {validation.common.required}")
     @Positive(message = "Price {validation.common.positive}")
     private Double price;
@@ -34,5 +36,6 @@ public class CreateDto {
     private Integer balance;
     @NotNull(message = "Images {validation.common.required}")
     private String[] images;
+    private String[] tags;
     private Boolean enabled = Boolean.TRUE;
 }

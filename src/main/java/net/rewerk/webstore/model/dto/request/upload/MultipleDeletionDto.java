@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.rewerk.webstore.model.entity.Upload;
 
 @Data
 @AllArgsConstructor
@@ -19,4 +20,6 @@ public class MultipleDeletionDto {
             message = "Filenames array {validation.common.range} of {min}-{max}"
     )
     private String[] filenames;
+    @NotNull(message = "Upload type {validation.common.required}")
+    private Upload.Type type;
 }
