@@ -1,11 +1,12 @@
 package net.rewerk.webstore.controller;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import net.rewerk.webstore.exception.OperationInterruptedException;
 import net.rewerk.webstore.model.dto.request.upload.DeleteDto;
-import net.rewerk.webstore.model.dto.request.upload.MultipleDeletionDto;
+import net.rewerk.webstore.model.dto.request.upload.MultipleDeleteDto;
 import net.rewerk.webstore.model.dto.request.upload.SignUrlDto;
-import net.rewerk.webstore.model.dto.response.BaseResponseDto;
 import net.rewerk.webstore.model.dto.response.common.SinglePayloadResponseDto;
 import net.rewerk.webstore.model.dto.response.upload.SignUrlResponseDto;
 import net.rewerk.webstore.service.UploadService;
@@ -23,7 +24,7 @@ public class UploadController {
     private final UploadService uploadService;
 
     @PostMapping("/sign-url")
-    public ResponseEntity<SinglePayloadResponseDto<SignUrlResponseDto>> signUrl(
+    public ResponseEntity<SinglePayloadResponseDto<SignUrlResponseDto>> signUploadUrl(
             @Valid @RequestBody SignUrlDto signUrlDto
     ) {
         HttpStatus status = HttpStatus.OK;
@@ -53,41 +54,27 @@ public class UploadController {
         );
     }
 
-    @DeleteMapping({"/", ""})
-    public ResponseEntity<BaseResponseDto> delete(
+    @DeleteMapping
+    public ResponseEntity<Void> deleteUpload(
             @Valid @RequestBody DeleteDto request
     ) {
-        HttpStatus status = HttpStatus.NO_CONTENT;
         try {
             uploadService.deleteObject(request.getFilename(), request.getType());
         } catch (Exception e) {
-            status = HttpStatus.NOT_FOUND;
+            throw new EntityNotFoundException("Object not found in storage");
         }
-        return new ResponseEntity<>(
-                BaseResponseDto.builder()
-                        .code(status.value())
-                        .message(status.getReasonPhrase())
-                        .build(),
-                status
-        );
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/multiple")
-    public ResponseEntity<BaseResponseDto> deleteMultiple(
-            @Valid @RequestBody MultipleDeletionDto request
+    public ResponseEntity<Void> deleteMultipleUploads(
+            @Valid @RequestBody MultipleDeleteDto request
     ) {
-        HttpStatus status = HttpStatus.NO_CONTENT;
         try {
             uploadService.deleteObjects(Arrays.asList(request.getFilenames()), request.getType()).join();
-        } catch (Exception e) {
-            status = HttpStatus.NOT_FOUND;
+        } catch (InterruptedException e) {
+            throw new OperationInterruptedException("Failed to delete multiple objects");
         }
-        return new ResponseEntity<>(
-                BaseResponseDto.builder()
-                        .code(status.value())
-                        .message(status.getReasonPhrase())
-                        .build(),
-                status
-        );
+        return ResponseEntity.noContent().build();
     }
 }

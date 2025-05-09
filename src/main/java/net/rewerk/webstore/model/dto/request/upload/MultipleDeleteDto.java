@@ -12,7 +12,7 @@ import net.rewerk.webstore.model.entity.Upload;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MultipleDeletionDto {
+public class MultipleDeleteDto {
     @NotNull(message = "Filenames {validation.common.required}")
     @Size(
             min = 1,

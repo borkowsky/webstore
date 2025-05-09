@@ -21,8 +21,4 @@ public abstract class ProductSpecification {
             return cb.and(predicates.toArray(new Predicate[0]));
         };
     }
-
-    public static Specification<Product> getPopularSpecification() {
-        return (root, cq, cb) -> cb.greaterThan(root.get("rating"), 0);
-    }
 }

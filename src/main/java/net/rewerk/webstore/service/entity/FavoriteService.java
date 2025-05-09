@@ -1,6 +1,8 @@
 package net.rewerk.webstore.service.entity;
 
+import net.rewerk.webstore.model.dto.request.favorite.CreateDto;
 import net.rewerk.webstore.model.entity.Favorite;
+import net.rewerk.webstore.model.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -8,11 +10,11 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.List;
 
 public interface FavoriteService {
-     Favorite create(Favorite favorite);
+     Favorite create(CreateDto createDto, User user);
 
      Favorite update(Favorite favorite);
 
-     void delete(Integer id);
+     void delete(User user, Favorite favorite);
 
      Favorite findById(Integer id);
 

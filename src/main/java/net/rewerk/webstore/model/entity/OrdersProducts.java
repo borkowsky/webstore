@@ -3,18 +3,20 @@ package net.rewerk.webstore.model.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import net.rewerk.webstore.configuration.pointer.ViewLevel;
 import net.rewerk.webstore.model.entity.meta.DeletableEntityMeta;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "orders_products")
 @JsonView(ViewLevel.RoleUser.class)
 public class OrdersProducts extends DeletableEntityMeta {
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(
             name = "product_id",
             referencedColumnName = "id",

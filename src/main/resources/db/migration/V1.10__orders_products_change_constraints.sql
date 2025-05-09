@@ -1,0 +1,1 @@
+alter table orders_products alter column order_id drop not null;

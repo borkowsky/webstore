@@ -8,11 +8,7 @@ import java.util.List;
 public interface UserService {
     User create(User user);
 
-    void save(User user);
-
     List<User> findAll();
-
-    User getByEmail(String email);
 
     User getByUsername(String username);
 

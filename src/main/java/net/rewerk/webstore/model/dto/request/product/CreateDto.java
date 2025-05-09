@@ -1,9 +1,7 @@
 package net.rewerk.webstore.model.dto.request.product;
 
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
@@ -32,10 +30,17 @@ public class CreateDto {
     private Double price;
     @Positive(message = "Discount price {validation.common.positive}")
     private Double discountPrice;
-    @NotNull(message = "Balance {validation.common.required}")
-    private Integer balance;
+    @NotNull(message = "Address {validation.common.required}")
+    @Size(
+            min = 6,
+            max = 255,
+            message = "Address {validation.common.range}"
+    )
+    private String address;
     @NotNull(message = "Images {validation.common.required}")
     private String[] images;
     private String[] tags;
     private Boolean enabled = Boolean.TRUE;
+    @Setter(AccessLevel.NONE)
+    private Double rating = 0.0d;
 }

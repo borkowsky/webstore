@@ -11,6 +11,7 @@ import net.rewerk.webstore.service.entity.UserService;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -19,6 +20,8 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
+    @Override
+    @Transactional
     public User create(User user) {
         if (userRepository.existsByUsername(user.getUsername())) {
             throw new UsernameExistsException("Username already exists");
@@ -29,18 +32,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    public void save(User user) {
-        userRepository.save(user);
-    }
-
+    @Override
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
-    public User getByEmail(String email) {
-        return userRepository.getByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException("User with email " + email + " not found"));
-    }
 
     public User getByUsername(String username) {
         return userRepository.getByUsername(username)

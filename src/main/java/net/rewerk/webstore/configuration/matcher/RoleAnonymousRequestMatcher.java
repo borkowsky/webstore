@@ -13,9 +13,9 @@ public class RoleAnonymousRequestMatcher extends net.rewerk.webstore.configurati
     public boolean matches(HttpServletRequest request) {
         Map<HttpMethod, List<String>> mapping = new ConcurrentHashMap<>();
         mapping.put(HttpMethod.GET, List.of(
-                "/categories",
-                "/products",
-                "/brands"
+                "/categories/**",
+                "/products/**",
+                "/brands/**"
         ));
         return super.process(request, mapping);
     }

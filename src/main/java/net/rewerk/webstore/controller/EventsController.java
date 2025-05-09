@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/events")
 @RestController
-public class EventController {
+public class EventsController {
     private final EventService eventService;
 
-    @GetMapping({"", "/"})
-    public ResponseEntity<PaginatedPayloadResponseDto<Event>> index(
+    @GetMapping
+    public ResponseEntity<PaginatedPayloadResponseDto<Event>> findAllEvents(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "limit", defaultValue = "20") Integer limit,
             @RequestParam(value = "sort", defaultValue = "id") String sort,

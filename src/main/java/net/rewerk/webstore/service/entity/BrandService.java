@@ -1,18 +1,24 @@
 package net.rewerk.webstore.service.entity;
 
+import net.rewerk.webstore.model.dto.request.brand.CreateDto;
+import net.rewerk.webstore.model.dto.request.brand.PatchDto;
 import net.rewerk.webstore.model.entity.Brand;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
 public interface BrandService {
-    Brand getById(Integer id);
+    Brand findById(Integer id);
 
     Brand create(Brand brand);
 
+    Brand create(CreateDto dto);
+
     Brand update(Brand brand);
 
-    void delete(Integer id);
+    Brand update(Brand brand, PatchDto dto);
+
+    void delete(Brand brand);
 
     Page<Brand> findAll(Pageable pageable);
 

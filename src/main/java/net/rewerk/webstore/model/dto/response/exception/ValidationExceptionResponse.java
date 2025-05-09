@@ -1,4 +1,4 @@
-package net.rewerk.webstore.model.dto.response;
+package net.rewerk.webstore.model.dto.response.exception;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.Getter;
@@ -12,13 +12,13 @@ import java.util.Map;
 
 @Getter
 @JsonView(ViewLevel.RoleAnonymous.class)
-public class ValidationErrorResponse {
+public class ValidationExceptionResponse {
     private final int code;
     private final String message;
     private final String timestamp;
     private final Map<String, List<String>> errors;
 
-    public ValidationErrorResponse(int code, String message) {
+    public ValidationExceptionResponse(int code, String message) {
         this.code = code;
         this.message = message;
         this.timestamp = String.valueOf(Instant.now());

@@ -1,4 +1,4 @@
-package net.rewerk.webstore.filter;
+package net.rewerk.webstore.configuration.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

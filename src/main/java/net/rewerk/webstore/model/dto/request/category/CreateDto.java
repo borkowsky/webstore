@@ -26,4 +26,5 @@ public class CreateDto {
     private String icon;
     private Integer category_id;
     private Boolean active = Boolean.TRUE;
+    private Boolean enabled = Boolean.TRUE;
 }

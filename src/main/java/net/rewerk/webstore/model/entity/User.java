@@ -43,10 +43,16 @@ public class User extends EntityMeta implements UserDetails {
     @Column(nullable = false)
     @JsonIgnore
     private String password;
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     @JdbcType(PostgreSQLOrdinalEnumJdbcType.class)
     private Role role;
-    private Double balance;
+    @OneToMany(
+            cascade = CascadeType.REMOVE,
+            mappedBy = "userId",
+            fetch = FetchType.EAGER
+    )
+    private List<Address> addresses;
 
     @Override
     @JsonIgnore
