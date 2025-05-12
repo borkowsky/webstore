@@ -4,14 +4,14 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import net.rewerk.webstore.exception.EntityExistsException;
 import net.rewerk.webstore.exception.UnprocessableOperation;
-import net.rewerk.webstore.model.dto.request.basket.CreateDto;
-import net.rewerk.webstore.model.dto.request.basket.MultipleDeleteDto;
-import net.rewerk.webstore.model.dto.request.basket.PatchDto;
+import net.rewerk.webstore.transport.dto.request.basket.CreateDto;
+import net.rewerk.webstore.transport.dto.request.basket.MultipleDeleteDto;
+import net.rewerk.webstore.transport.dto.request.basket.PatchDto;
 import net.rewerk.webstore.model.entity.Basket;
 import net.rewerk.webstore.model.entity.Category;
 import net.rewerk.webstore.model.entity.Product;
 import net.rewerk.webstore.model.entity.User;
-import net.rewerk.webstore.model.mapper.BasketDtoMapper;
+import net.rewerk.webstore.transport.dto.mapper.BasketDtoMapper;
 import net.rewerk.webstore.repository.BasketRepository;
 import net.rewerk.webstore.service.entity.BasketService;
 import net.rewerk.webstore.service.entity.ProductService;
@@ -79,7 +79,7 @@ public class BasketServiceImpl implements BasketService {
     @Override
     @Transactional
     public void deleteAllById(MultipleDeleteDto dto, User user) {
-        List<Basket> baskets = basketRepository.findAddByIdInAndUserId(
+        List<Basket> baskets = basketRepository.findAllByIdInAndUserId(
                 List.of(dto.getBasket_ids()), user.getId()
         );
         basketRepository.deleteAllById(baskets.stream()
@@ -131,6 +131,6 @@ public class BasketServiceImpl implements BasketService {
 
     @Override
     public List<Basket> findAddByIdsInAndUserId(List<Integer> ids, Integer userId) {
-        return basketRepository.findAddByIdInAndUserId(ids, userId);
+        return basketRepository.findAllByIdInAndUserId(ids, userId);
     }
 }

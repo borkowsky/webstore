@@ -2,10 +2,10 @@ package net.rewerk.webstore.service.entity.impl;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import net.rewerk.webstore.model.dto.request.category.CreateDto;
-import net.rewerk.webstore.model.dto.request.category.PatchDto;
+import net.rewerk.webstore.transport.dto.request.category.CreateDto;
+import net.rewerk.webstore.transport.dto.request.category.PatchDto;
 import net.rewerk.webstore.model.entity.Category;
-import net.rewerk.webstore.model.mapper.CategoryDtoMapper;
+import net.rewerk.webstore.transport.dto.mapper.CategoryDtoMapper;
 import net.rewerk.webstore.repository.CategoryRepository;
 import net.rewerk.webstore.repository.EventRepository;
 import net.rewerk.webstore.service.EventWritingService;
@@ -40,7 +40,7 @@ public class CategoryServiceImpl extends EventWritingService implements Category
         if (dto.getCategory_id() != null) {
             categoryRepository.findById(dto.getCategory_id())
                     .ifPresentOrElse(
-                            category -> mapped.setCategory_id(category.getId()),
+                            category -> mapped.setCategoryId(category.getId()),
                             () -> {
                                 throw new EntityNotFoundException("Parent category was not found");
                             }
@@ -62,7 +62,7 @@ public class CategoryServiceImpl extends EventWritingService implements Category
         if (dto.getCategory_id() != null) {
             categoryRepository.findById(dto.getCategory_id())
                     .ifPresentOrElse(
-                            (parent) -> mapped.setCategory_id(parent.getId()),
+                            (parent) -> mapped.setCategoryId(parent.getId()),
                             () -> {
                                 throw new EntityNotFoundException("Parent category was not found");
                             });

@@ -19,7 +19,7 @@ import java.util.List;
 public class Product extends EntityMeta {
     private String name;
     private String description;
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
             name = "category_id",
             nullable = false
@@ -29,7 +29,7 @@ public class Product extends EntityMeta {
     private Double discountPrice;
     private Double rating;
     private Integer balance;
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "brand_id")
     private Brand brand;
     private List<String> images;

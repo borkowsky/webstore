@@ -2,8 +2,8 @@ package net.rewerk.webstore.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import net.rewerk.webstore.model.dto.request.product.PatchDto;
-import net.rewerk.webstore.model.dto.response.common.SinglePayloadResponseDto;
+import net.rewerk.webstore.transport.dto.request.product.PatchDto;
+import net.rewerk.webstore.transport.dto.response.common.SinglePayloadResponseDto;
 import net.rewerk.webstore.model.entity.Product;
 import net.rewerk.webstore.service.entity.ProductService;
 import net.rewerk.webstore.util.ResponseUtils;

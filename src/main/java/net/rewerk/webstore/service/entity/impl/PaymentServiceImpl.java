@@ -2,6 +2,7 @@ package net.rewerk.webstore.service.entity.impl;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import net.rewerk.webstore.exception.UnprocessableOperation;
 import net.rewerk.webstore.model.entity.Order;
 import net.rewerk.webstore.model.entity.Payment;
 import net.rewerk.webstore.model.entity.User;
@@ -13,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -47,6 +50,9 @@ public class PaymentServiceImpl implements PaymentService {
         Payment payment = paymentRepository.findByIdAndUserId(paymentId, user.getId())
                 .orElseThrow(() -> new EntityNotFoundException("Payment not found"));
         Order order = orderService.findByPaymentIdAndUser(paymentId, user);
+        if (List.of(Order.Status.PAID, Order.Status.RECEIVED).contains(order.getStatus())) {
+            throw new UnprocessableOperation("Order status conflict");
+        }
         payment.setStatus(Payment.Status.APPROVED);
         order.setStatus(Order.Status.PAID);
         orderService.update(order);

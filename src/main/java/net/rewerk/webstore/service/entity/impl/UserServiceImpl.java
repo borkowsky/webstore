@@ -8,6 +8,7 @@ import net.rewerk.webstore.exception.UsernameExistsException;
 import net.rewerk.webstore.model.entity.User;
 import net.rewerk.webstore.repository.UserRepository;
 import net.rewerk.webstore.service.entity.UserService;
+import net.rewerk.webstore.transport.dto.request.user.SearchDto;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public List<User> searchByUsername(SearchDto searchDto) {
+        if (searchDto.getUsername() == null) return List.of();
+        return userRepository.findAllByUsernameLikeIgnoreCase("%" + searchDto.getUsername() + "%");
     }
 
 

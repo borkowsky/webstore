@@ -2,7 +2,7 @@ package net.rewerk.webstore.model.specification;
 
 import jakarta.persistence.criteria.Predicate;
 import lombok.NonNull;
-import net.rewerk.webstore.model.dto.request.order.SearchDto;
+import net.rewerk.webstore.transport.dto.request.order.SearchDto;
 import net.rewerk.webstore.model.entity.Order;
 import net.rewerk.webstore.model.entity.User;
 import org.springframework.data.jpa.domain.Specification;
@@ -29,11 +29,9 @@ public abstract class OrderSpecification {
                             )))
                     );
                 } else {
-                    predicates.add(
-                            cb.in(root.get("status").in(List.of(
-                                    Order.Status.RECEIVED
-                            )))
-                    );
+                    predicates.add(root.get("status").in(List.of(
+                            Order.Status.RECEIVED
+                    )));
                 }
             }
             return cb.and(predicates.toArray(new Predicate[0]));

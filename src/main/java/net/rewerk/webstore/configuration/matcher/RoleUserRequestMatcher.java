@@ -19,11 +19,14 @@ public class RoleUserRequestMatcher extends net.rewerk.webstore.configuration.ma
         );
         List<String> allowedGetURIs = List.of(
                 "/orders/**",
-                "/payments/**"
+                "/payments/**",
+                "/reviews/**"
         );
         List<String> allowedPostURIs = List.of(
                 "/orders/**",
-                "/payments/**"
+                "/payments/**",
+                "/reviews/**",
+                "/uploads/sign-url"
         );
         mapping.put(HttpMethod.GET, Stream.concat(
                 allowedAllURIs.stream(),

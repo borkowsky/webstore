@@ -2,7 +2,7 @@ package net.rewerk.webstore.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import net.rewerk.webstore.model.dto.request.basket.PatchDto;
+import net.rewerk.webstore.transport.dto.request.basket.PatchDto;
 import net.rewerk.webstore.model.entity.Basket;
 import net.rewerk.webstore.model.entity.User;
 import net.rewerk.webstore.service.entity.BasketService;

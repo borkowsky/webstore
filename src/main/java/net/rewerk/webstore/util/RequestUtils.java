@@ -1,7 +1,7 @@
 package net.rewerk.webstore.util;
 
-import net.rewerk.webstore.model.dto.request.common.PaginatedRequestParamsDto;
-import net.rewerk.webstore.model.dto.request.common.SortedRequestParamsDto;
+import net.rewerk.webstore.transport.dto.request.common.PaginatedRequestParamsDto;
+import net.rewerk.webstore.transport.dto.request.common.SortedRequestParamsDto;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 

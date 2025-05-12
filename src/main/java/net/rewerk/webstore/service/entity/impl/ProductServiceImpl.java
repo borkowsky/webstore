@@ -2,10 +2,10 @@ package net.rewerk.webstore.service.entity.impl;
 
 import lombok.RequiredArgsConstructor;
 import net.rewerk.webstore.exception.OperationInterruptedException;
-import net.rewerk.webstore.model.dto.request.product.PatchDto;
+import net.rewerk.webstore.transport.dto.request.product.PatchDto;
 import net.rewerk.webstore.model.entity.Product;
 import net.rewerk.webstore.model.entity.Upload;
-import net.rewerk.webstore.model.mapper.ProductDtoMapper;
+import net.rewerk.webstore.transport.dto.mapper.ProductDtoMapper;
 import net.rewerk.webstore.repository.EventRepository;
 import net.rewerk.webstore.repository.ProductRepository;
 import net.rewerk.webstore.service.EventWritingService;

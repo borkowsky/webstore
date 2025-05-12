@@ -3,11 +3,11 @@ package net.rewerk.webstore.service.entity.impl;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import net.rewerk.webstore.model.dto.request.address.CreateDto;
-import net.rewerk.webstore.model.dto.request.address.PatchDto;
+import net.rewerk.webstore.transport.dto.request.address.CreateDto;
+import net.rewerk.webstore.transport.dto.request.address.PatchDto;
 import net.rewerk.webstore.model.entity.Address;
 import net.rewerk.webstore.model.entity.User;
-import net.rewerk.webstore.model.mapper.AddressDtoMapper;
+import net.rewerk.webstore.transport.dto.mapper.AddressDtoMapper;
 import net.rewerk.webstore.repository.AddressRepository;
 import net.rewerk.webstore.service.entity.AddressService;
 import org.springframework.data.domain.Page;
@@ -16,6 +16,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -59,5 +60,10 @@ public class AddressServiceImpl implements AddressService {
             throw new EntityNotFoundException("Address not found");
         }
         addressRepository.delete(address);
+    }
+
+    @Override
+    public List<Address> findByUser(User user) {
+        return addressRepository.findByUserId(user.getId());
     }
 }

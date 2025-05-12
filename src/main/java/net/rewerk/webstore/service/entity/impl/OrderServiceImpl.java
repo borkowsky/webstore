@@ -3,12 +3,16 @@ package net.rewerk.webstore.service.entity.impl;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import net.rewerk.webstore.exception.UnprocessableOperation;
-import net.rewerk.webstore.model.dto.request.order.CreateDto;
-import net.rewerk.webstore.model.dto.response.order.CountersDto;
 import net.rewerk.webstore.model.entity.*;
+import net.rewerk.webstore.model.specification.OrderSpecification;
 import net.rewerk.webstore.repository.OrderRepository;
+import net.rewerk.webstore.service.entity.AddressService;
 import net.rewerk.webstore.service.entity.BasketService;
 import net.rewerk.webstore.service.entity.OrderService;
+import net.rewerk.webstore.transport.dto.request.order.CreateDto;
+import net.rewerk.webstore.transport.dto.request.order.PatchDto;
+import net.rewerk.webstore.transport.dto.request.order.SearchDto;
+import net.rewerk.webstore.transport.dto.response.order.CountersDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -25,6 +29,7 @@ import java.util.Objects;
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final BasketService basketService;
+    private final AddressService addressService;
 
     @Override
     public Order findById(Integer id) {
@@ -33,7 +38,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order findByOrderIdAndUser(Integer orderId, User user) {
-        return orderRepository.findByIdAndUserId(orderId, user.getId());
+        return orderRepository.findByIdAndUserId(orderId, user.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Order not found"));
     }
 
     @Override
@@ -43,20 +49,13 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public CountersDto getCounters(User user) {
-        Long activeTotal = orderRepository.countOrderByStatusInAndUserId(
-                List.of(Order.Status.CREATED,
-                        Order.Status.ACCEPTED,
-                        Order.Status.PAID,
-                        Order.Status.DELIVERY,
-                        Order.Status.DELIVERED),
-                user.getId()
-        );
-        Long completedTotal = orderRepository.countOrderByStatusInAndUserId(
-                List.of(Order.Status.RECEIVED,
-                        Order.Status.REJECTED),
-                user.getId()
-        );
+    public CountersDto getCounters(SearchDto dto, User user) {
+        SearchDto activeDto = dto.clone();
+        SearchDto completedDto = dto.clone();
+        activeDto.setType("active");
+        completedDto.setType("completed");
+        Long activeTotal = orderRepository.count(OrderSpecification.getSpecification(user, activeDto));
+        Long completedTotal = orderRepository.count(OrderSpecification.getSpecification(user, completedDto));
         return CountersDto.builder()
                 .active(activeTotal)
                 .completed(completedTotal)
@@ -65,10 +64,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order create(CreateDto createDto, User user) {
-        if (user.getAddresses().isEmpty()) {
+        List<Address> addresses = addressService.findByUser(user);
+        if (addresses.isEmpty()) {
             throw new UnprocessableOperation("User not have any address");
         }
-        Address address = user.getAddresses().stream()
+        Address address = addresses.stream()
                 .filter(a -> Objects.equals(a.getId(), createDto.getAddress_id()))
                 .findFirst()
                 .orElseThrow(() -> new EntityNotFoundException("Address not found"));
@@ -112,6 +112,17 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order update(Order order) {
+        return orderRepository.save(order);
+    }
+
+    @Override
+    public Order update(Order order, PatchDto patchDto) {
+        if (patchDto.getOrder_status() != null) {
+            order.setStatus(patchDto.getOrder_status());
+        }
+        if (patchDto.getPayment_status() != null) {
+            order.getPayment().setStatus(patchDto.getPayment_status());
+        }
         return orderRepository.save(order);
     }
 

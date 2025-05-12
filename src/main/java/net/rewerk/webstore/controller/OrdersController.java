@@ -2,11 +2,11 @@ package net.rewerk.webstore.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import net.rewerk.webstore.model.dto.request.order.CreateDto;
-import net.rewerk.webstore.model.dto.request.order.SearchDto;
-import net.rewerk.webstore.model.dto.response.common.PaginatedPayloadResponseDto;
-import net.rewerk.webstore.model.dto.response.common.SinglePayloadResponseDto;
-import net.rewerk.webstore.model.dto.response.order.CountersDto;
+import net.rewerk.webstore.transport.dto.request.order.CreateDto;
+import net.rewerk.webstore.transport.dto.request.order.SearchDto;
+import net.rewerk.webstore.transport.dto.response.common.PaginatedPayloadResponseDto;
+import net.rewerk.webstore.transport.dto.response.common.SinglePayloadResponseDto;
+import net.rewerk.webstore.transport.dto.response.order.CountersDto;
 import net.rewerk.webstore.model.entity.Order;
 import net.rewerk.webstore.model.entity.User;
 import net.rewerk.webstore.model.specification.OrderSpecification;
@@ -43,9 +43,10 @@ public class OrdersController {
 
     @GetMapping("/counters")
     public ResponseEntity<SinglePayloadResponseDto<CountersDto>> getAllOrdersCounters(
+            @Valid SearchDto searchDto,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
-        CountersDto result = orderService.getCounters((User) userDetails);
+        CountersDto result = orderService.getCounters(searchDto, (User) userDetails);
         return ResponseUtils.createSingleResponse(result);
     }
 

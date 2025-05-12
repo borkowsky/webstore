@@ -2,7 +2,7 @@ package net.rewerk.webstore.configuration.advice;
 
 import jakarta.persistence.EntityNotFoundException;
 import net.rewerk.webstore.exception.*;
-import net.rewerk.webstore.model.dto.response.exception.*;
+import net.rewerk.webstore.transport.dto.response.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;

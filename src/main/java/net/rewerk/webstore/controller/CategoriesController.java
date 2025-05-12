@@ -2,10 +2,10 @@ package net.rewerk.webstore.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import net.rewerk.webstore.model.dto.request.category.CreateDto;
-import net.rewerk.webstore.model.dto.request.category.SearchDto;
-import net.rewerk.webstore.model.dto.response.common.PaginatedPayloadResponseDto;
-import net.rewerk.webstore.model.dto.response.common.SinglePayloadResponseDto;
+import net.rewerk.webstore.transport.dto.request.category.CreateDto;
+import net.rewerk.webstore.transport.dto.request.category.SearchDto;
+import net.rewerk.webstore.transport.dto.response.common.PaginatedPayloadResponseDto;
+import net.rewerk.webstore.transport.dto.response.common.SinglePayloadResponseDto;
 import net.rewerk.webstore.model.entity.Category;
 import net.rewerk.webstore.model.specification.CategorySpecification;
 import net.rewerk.webstore.service.entity.CategoryService;

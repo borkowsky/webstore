@@ -1,8 +1,8 @@
 package net.rewerk.webstore.service.entity;
 
-import net.rewerk.webstore.model.dto.request.basket.CreateDto;
-import net.rewerk.webstore.model.dto.request.basket.MultipleDeleteDto;
-import net.rewerk.webstore.model.dto.request.basket.PatchDto;
+import net.rewerk.webstore.transport.dto.request.basket.CreateDto;
+import net.rewerk.webstore.transport.dto.request.basket.MultipleDeleteDto;
+import net.rewerk.webstore.transport.dto.request.basket.PatchDto;
 import net.rewerk.webstore.model.entity.Basket;
 import net.rewerk.webstore.model.entity.User;
 import org.springframework.data.domain.Page;

@@ -2,7 +2,7 @@ package net.rewerk.webstore.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import net.rewerk.webstore.model.dto.request.address.PatchDto;
+import net.rewerk.webstore.transport.dto.request.address.PatchDto;
 import net.rewerk.webstore.model.entity.Address;
 import net.rewerk.webstore.model.entity.User;
 import net.rewerk.webstore.service.entity.AddressService;

@@ -1,7 +1,7 @@
 package net.rewerk.webstore.service.entity;
 
-import net.rewerk.webstore.model.dto.request.category.CreateDto;
-import net.rewerk.webstore.model.dto.request.category.PatchDto;
+import net.rewerk.webstore.transport.dto.request.category.CreateDto;
+import net.rewerk.webstore.transport.dto.request.category.PatchDto;
 import net.rewerk.webstore.model.entity.Category;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

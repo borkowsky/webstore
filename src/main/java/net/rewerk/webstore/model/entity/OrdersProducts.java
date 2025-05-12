@@ -16,7 +16,7 @@ import net.rewerk.webstore.model.entity.meta.DeletableEntityMeta;
 @Table(name = "orders_products")
 @JsonView(ViewLevel.RoleUser.class)
 public class OrdersProducts extends DeletableEntityMeta {
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
             name = "product_id",
             referencedColumnName = "id",

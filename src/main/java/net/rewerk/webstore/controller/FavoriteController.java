@@ -1,7 +1,7 @@
 package net.rewerk.webstore.controller;
 
 import lombok.RequiredArgsConstructor;
-import net.rewerk.webstore.model.dto.response.common.SinglePayloadResponseDto;
+import net.rewerk.webstore.transport.dto.response.common.SinglePayloadResponseDto;
 import net.rewerk.webstore.model.entity.Favorite;
 import net.rewerk.webstore.model.entity.User;
 import net.rewerk.webstore.service.entity.FavoriteService;

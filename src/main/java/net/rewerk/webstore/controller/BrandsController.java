@@ -2,10 +2,10 @@ package net.rewerk.webstore.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import net.rewerk.webstore.model.dto.request.brand.CreateDto;
-import net.rewerk.webstore.model.dto.request.brand.SearchDto;
-import net.rewerk.webstore.model.dto.response.common.PaginatedPayloadResponseDto;
-import net.rewerk.webstore.model.dto.response.common.SinglePayloadResponseDto;
+import net.rewerk.webstore.transport.dto.request.brand.CreateDto;
+import net.rewerk.webstore.transport.dto.request.brand.SearchDto;
+import net.rewerk.webstore.transport.dto.response.common.PaginatedPayloadResponseDto;
+import net.rewerk.webstore.transport.dto.response.common.SinglePayloadResponseDto;
 import net.rewerk.webstore.model.entity.Brand;
 import net.rewerk.webstore.model.specification.BrandSpecification;
 import net.rewerk.webstore.service.entity.BrandService;
@@ -29,7 +29,9 @@ public class BrandsController {
     public ResponseEntity<PaginatedPayloadResponseDto<Brand>> findAllBrands(
             @Valid SearchDto request
     ) {
-        Page<Brand> result = brandService.findAll(
+        Page<Brand> result = request.getProduct_category_id() != null ?
+                brandService.findAllByProductCategoryId(request.getProduct_category_id())
+                : brandService.findAll(
                 BrandSpecification.getSpecification(request),
                 RequestUtils.getSortAndPageRequest(request)
         );
@@ -40,11 +42,11 @@ public class BrandsController {
     public ResponseEntity<SinglePayloadResponseDto<Brand>> createBrand(
             @Valid @RequestBody CreateDto request,
             UriComponentsBuilder uriBuilder
-            ) {
+    ) {
         Brand result = brandService.create(request);
         return ResponseEntity.created(uriBuilder
-                .replacePath("/api/v1/brands/{brandId}")
-                .build(Map.of("brandId", result.getId())))
+                        .replacePath("/api/v1/brands/{brandId}")
+                        .build(Map.of("brandId", result.getId())))
                 .body(SinglePayloadResponseDto.<Brand>builder()
                         .code(HttpStatus.CREATED.value())
                         .message(HttpStatus.CREATED.getReasonPhrase())

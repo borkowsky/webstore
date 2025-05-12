@@ -22,11 +22,11 @@ public class Category extends EntityMeta {
     private String name;
     private String description;
     private String icon;
-    private Integer category_id;
+    private Integer categoryId;
     @OneToMany(
             fetch = FetchType.EAGER,
             cascade = CascadeType.REMOVE,
-            mappedBy = "category_id"
+            mappedBy = "categoryId"
     )
     private List<Category> categories;
     @Formula("(select count(p.*) from products p where" +

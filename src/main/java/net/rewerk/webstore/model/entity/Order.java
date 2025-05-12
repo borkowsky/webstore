@@ -29,7 +29,7 @@ public class Order extends EntityMeta {
         RECEIVED
     }
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
             name = "user_id",
             nullable = false,
@@ -56,7 +56,7 @@ public class Order extends EntityMeta {
             updatable = false
     )
     private Payment payment;
-    @OneToOne(
+    @ManyToOne(
             fetch = FetchType.EAGER
     )
     @JoinColumn(

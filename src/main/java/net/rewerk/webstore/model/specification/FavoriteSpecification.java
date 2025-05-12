@@ -6,7 +6,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 public abstract class FavoriteSpecification {
     public static Specification<Favorite> getSpecification(@NonNull Integer userId) {
-        return (root, cq, cb) -> cb.equal(root.get("user_id"), userId);
+        return (root, cq, cb) -> cb.equal(root.get("userId"), userId);
     }
 
     public static Specification<Favorite> getCategoriesSpecification(@NonNull Integer userId) {
@@ -14,7 +14,7 @@ public abstract class FavoriteSpecification {
             if (cq != null) {
                 cq.select(root.get("product").get("category").get("id"));
             }
-            return cb.equal(root.get("user_id"), userId);
+            return cb.equal(root.get("userId"), userId);
         };
     }
 }

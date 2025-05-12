@@ -15,7 +15,7 @@ import net.rewerk.webstore.model.entity.meta.DeletableEntityMeta;
 @AllArgsConstructor
 @JsonView(ViewLevel.RoleAdministrator.class)
 public class Event extends DeletableEntityMeta {
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
             name = "user_id",
             nullable = false,

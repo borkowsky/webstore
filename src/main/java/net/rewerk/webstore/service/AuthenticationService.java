@@ -1,9 +1,9 @@
 package net.rewerk.webstore.service;
 
 import lombok.RequiredArgsConstructor;
-import net.rewerk.webstore.model.dto.request.auth.LoginDto;
-import net.rewerk.webstore.model.dto.request.auth.RegistrationDto;
-import net.rewerk.webstore.model.dto.response.auth.AuthenticationResponseDto;
+import net.rewerk.webstore.transport.dto.request.auth.LoginDto;
+import net.rewerk.webstore.transport.dto.request.auth.RegistrationDto;
+import net.rewerk.webstore.transport.dto.response.auth.AuthenticationResponseDto;
 import net.rewerk.webstore.model.entity.User;
 import net.rewerk.webstore.service.entity.UserService;
 import org.springframework.http.HttpStatus;

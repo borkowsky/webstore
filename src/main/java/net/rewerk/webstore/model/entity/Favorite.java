@@ -18,7 +18,7 @@ import net.rewerk.webstore.model.entity.meta.DeletableEntityMeta;
 public class Favorite extends DeletableEntityMeta {
     @JsonIgnore
     private Integer userId;
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
             name = "product_id",
             nullable = false,

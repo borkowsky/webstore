@@ -2,7 +2,7 @@ package net.rewerk.webstore.model.specification;
 
 import jakarta.persistence.criteria.Predicate;
 import lombok.NonNull;
-import net.rewerk.webstore.model.dto.request.category.SearchDto;
+import net.rewerk.webstore.transport.dto.request.category.SearchDto;
 import net.rewerk.webstore.model.entity.Category;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -14,9 +14,9 @@ public abstract class CategorySpecification {
         return (root, cq, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (searchDto.getCategory_id() == null) {
-                predicates.add(cb.isNull(root.get("category_id")));
+                predicates.add(cb.isNull(root.get("categoryId")));
             } else if (searchDto.getCategory_id() > 0) {
-                predicates.add(cb.equal(root.get("category_id"), searchDto.getCategory_id()));
+                predicates.add(cb.equal(root.get("categoryId"), searchDto.getCategory_id()));
             }
             return cb.and(predicates.toArray(new Predicate[0]));
         };

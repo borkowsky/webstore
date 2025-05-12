@@ -1,7 +1,7 @@
 package net.rewerk.webstore.controller;
 
 import lombok.RequiredArgsConstructor;
-import net.rewerk.webstore.model.dto.response.common.PaginatedPayloadResponseDto;
+import net.rewerk.webstore.transport.dto.response.common.PaginatedPayloadResponseDto;
 import net.rewerk.webstore.model.entity.Event;
 import net.rewerk.webstore.service.entity.EventService;
 import org.springframework.data.domain.Page;

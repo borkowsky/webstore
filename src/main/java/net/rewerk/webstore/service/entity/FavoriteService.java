@@ -1,6 +1,6 @@
 package net.rewerk.webstore.service.entity;
 
-import net.rewerk.webstore.model.dto.request.favorite.CreateDto;
+import net.rewerk.webstore.transport.dto.request.favorite.CreateDto;
 import net.rewerk.webstore.model.entity.Favorite;
 import net.rewerk.webstore.model.entity.User;
 import org.springframework.data.domain.Page;

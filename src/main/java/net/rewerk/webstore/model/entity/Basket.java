@@ -20,7 +20,7 @@ public class Basket extends DeletableEntityMeta {
     @JsonIgnore
     @Column(nullable = false, updatable = false)
     private Integer userId;
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(
             name = "product_id",
             nullable = false,

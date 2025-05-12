@@ -2,7 +2,7 @@ package net.rewerk.webstore.model.specification;
 
 import jakarta.persistence.criteria.Predicate;
 import lombok.NonNull;
-import net.rewerk.webstore.model.dto.request.brand.SearchDto;
+import net.rewerk.webstore.transport.dto.request.brand.SearchDto;
 import net.rewerk.webstore.model.entity.Brand;
 import org.springframework.data.jpa.domain.Specification;
 

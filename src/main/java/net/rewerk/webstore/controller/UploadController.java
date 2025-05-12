@@ -1,21 +1,22 @@
 package net.rewerk.webstore.controller;
 
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import net.rewerk.webstore.exception.OperationInterruptedException;
-import net.rewerk.webstore.model.dto.request.upload.DeleteDto;
-import net.rewerk.webstore.model.dto.request.upload.MultipleDeleteDto;
-import net.rewerk.webstore.model.dto.request.upload.SignUrlDto;
-import net.rewerk.webstore.model.dto.response.common.SinglePayloadResponseDto;
-import net.rewerk.webstore.model.dto.response.upload.SignUrlResponseDto;
+import net.rewerk.webstore.model.entity.User;
+import net.rewerk.webstore.transport.dto.request.upload.DeleteDto;
+import net.rewerk.webstore.transport.dto.request.upload.MultipleDeleteDto;
+import net.rewerk.webstore.transport.dto.request.upload.SignUrlDto;
+import net.rewerk.webstore.transport.dto.response.common.SinglePayloadResponseDto;
+import net.rewerk.webstore.transport.dto.response.upload.SignUrlResponseDto;
 import net.rewerk.webstore.service.UploadService;
-import org.springframework.http.HttpStatus;
+import net.rewerk.webstore.util.ResponseUtils;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
-import java.util.UUID;
 
 @RequestMapping("/api/v1/uploads")
 @RestController
@@ -25,44 +26,17 @@ public class UploadController {
 
     @PostMapping("/sign-url")
     public ResponseEntity<SinglePayloadResponseDto<SignUrlResponseDto>> signUploadUrl(
-            @Valid @RequestBody SignUrlDto signUrlDto
+            @Valid @RequestBody SignUrlDto signUrlDto,
+            @AuthenticationPrincipal UserDetails user
     ) {
-        HttpStatus status = HttpStatus.OK;
-        UUID uuid = UUID.randomUUID();
-        String filename = String.format("%s_%s", uuid, signUrlDto.getFilename());
-        String result = null;
-        try {
-            result = uploadService.signV4UploadURL(
-                    filename,
-                    signUrlDto.getMime(),
-                    signUrlDto.getType()
-            );
-        } catch (Exception e) {
-            System.out.println("Sign URL failed: " + e.getMessage());
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-        }
-        return new ResponseEntity<>(
-                SinglePayloadResponseDto.<SignUrlResponseDto>builder()
-                        .code(status.value())
-                        .message(status.getReasonPhrase())
-                        .payload(SignUrlResponseDto.builder()
-                                .uploadURL(result)
-                                .publicURL(uploadService.getUploadPublicURL(filename, signUrlDto.getType()))
-                                .build())
-                        .build(),
-                status
-        );
+        return ResponseUtils.createSingleResponse(uploadService.signUploadURL(signUrlDto, (User) user));
     }
 
     @DeleteMapping
     public ResponseEntity<Void> deleteUpload(
             @Valid @RequestBody DeleteDto request
     ) {
-        try {
-            uploadService.deleteObject(request.getFilename(), request.getType());
-        } catch (Exception e) {
-            throw new EntityNotFoundException("Object not found in storage");
-        }
+        uploadService.deleteObject(request.getFilename(), request.getType());
         return ResponseEntity.noContent().build();
     }
 

@@ -1,8 +1,8 @@
 package net.rewerk.webstore.util;
 
-import net.rewerk.webstore.model.dto.response.common.PaginatedPayloadResponseDto;
-import net.rewerk.webstore.model.dto.response.common.PayloadResponseDto;
-import net.rewerk.webstore.model.dto.response.common.SinglePayloadResponseDto;
+import net.rewerk.webstore.transport.dto.response.common.PaginatedPayloadResponseDto;
+import net.rewerk.webstore.transport.dto.response.common.PayloadResponseDto;
+import net.rewerk.webstore.transport.dto.response.common.SinglePayloadResponseDto;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ public abstract class ResponseUtils {
                 .payload(page.getContent())
                 .total(page.getTotalElements())
                 .page(page.getNumber() + 1)
-                .pages(page.getTotalPages() + 1)
+                .pages(page.getTotalPages())
                 .build());
     }
 

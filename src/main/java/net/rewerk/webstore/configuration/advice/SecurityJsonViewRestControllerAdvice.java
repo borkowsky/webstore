@@ -28,6 +28,7 @@ public class SecurityJsonViewRestControllerAdvice extends AbstractMappingJackson
             @NonNull MethodParameter returnType,
             @NonNull ServerHttpRequest request,
             @NonNull ServerHttpResponse response) {
+        final int JSON_VIEWS_ALLOWED_SIZE = 1;
         if (SecurityContextHolder.getContext().getAuthentication() != null
                 && SecurityContextHolder.getContext().getAuthentication().getAuthorities() != null) {
             if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof User) {
@@ -38,7 +39,7 @@ public class SecurityJsonViewRestControllerAdvice extends AbstractMappingJackson
                         .map(User.Role::valueOf)
                         .map(EntityViewLevelMapping.MAPPING::get)
                         .collect(Collectors.toList());
-                if (jsonViews.size() == 1) {
+                if (jsonViews.size() == JSON_VIEWS_ALLOWED_SIZE) {
                     bodyContainer.setSerializationView(jsonViews.getFirst());
                     return;
                 }

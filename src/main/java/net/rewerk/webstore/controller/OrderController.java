@@ -1,7 +1,8 @@
 package net.rewerk.webstore.controller;
 
 import lombok.RequiredArgsConstructor;
-import net.rewerk.webstore.model.dto.response.common.SinglePayloadResponseDto;
+import net.rewerk.webstore.transport.dto.request.order.PatchDto;
+import net.rewerk.webstore.transport.dto.response.common.SinglePayloadResponseDto;
 import net.rewerk.webstore.model.entity.Order;
 import net.rewerk.webstore.model.entity.User;
 import net.rewerk.webstore.service.entity.OrderService;
@@ -30,5 +31,14 @@ public class OrderController {
             @ModelAttribute Order order
     ) {
         return ResponseUtils.createSingleResponse(order);
+    }
+
+    @PatchMapping
+    public ResponseEntity<Void> updateOrder(
+            @ModelAttribute("order") Order order,
+            @RequestBody PatchDto patchDto
+    ) {
+        orderService.update(order, patchDto);
+        return ResponseEntity.noContent().build();
     }
 }
